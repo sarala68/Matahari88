@@ -55,7 +55,7 @@
     border: 1px solid #444;
     border-radius: 10px;
     width: 260px;
-    height: 460px;
+    height: 480px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(255,255,255,0.1);
     padding: 15px;
@@ -63,13 +63,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .product img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-    border-radius: 8px;
-    background-color: #222;
-  }
+  .product img { width: 100%; height: 180px; object-fit: contain; border-radius: 8px; background-color: #222; }
   .product h3 { margin: 10px 0 5px; font-size: 1.1em; color: #fff; min-height: 40px; }
   .product p { margin: 5px 0 10px; color: #ccc; font-size: 0.95em; min-height: 40px; }
   select {
@@ -117,7 +111,7 @@
   .remark { display: block; margin-top: 8px; font-size: 0.95em; color: red; visibility: hidden; }
   @media (max-width: 768px) {
     .container { flex-direction: column; align-items: center; }
-    .product { width: 90%; max-width: 350px; height: 420px; }
+    .product { width: 90%; max-width: 350px; height: auto; }
     .product img { height: 160px; }
     .order-btn { width: 80%; }
   }
@@ -146,8 +140,9 @@
     <p>Gentle lavender fragrance with powerful cleaning for every floor surface.</p>
     <label>Select Combo:</label>
     <select id="combo1" onchange="updateTotal()">
-      <option value="13.90">1x Lavender - RM 13.90</option>
-      <option value="26.50">2x Lavender - RM 26.50</option>
+      <option value="11.90">Single Pack - RM 11.90</option>
+      <option value="17.90">Twin Pack – RM 17.90</option>
+      <option value="49.90">10L Jerry Can - RM 49.90</option>
     </select>
     <div class="quantity-control">
       <button onclick="changeQty(this, -1)">-</button>
@@ -156,12 +151,12 @@
     </div>
   </div>
 
-  <!-- Product 2 -->
+  <!-- Product 4 -->
   <div class="product">
     <img src="images/product4.jpg" alt="Floor Cleaner Sandalwood">
     <h3>Floor Cleaner Sandalwood</h3>
     <p>Refreshing sandalwood scent with deep cleaning formula for a spotless finish.</p>
-    <label>Price: RM 19.90</label>
+    <label>Price: RM 17.90</label>
     <div class="quantity-control">
       <button onclick="changeQty(this, -1)">-</button>
       <input type="number" value="0" min="0" data-id="4" oninput="updateTotal()">
@@ -169,12 +164,17 @@
     </div>
   </div>
 
-  <!-- Product 3 -->
+  <!-- Product 5 -->
   <div class="product">
     <img src="images/product5.jpg" alt="Floor Cleaner Honey Dew">
     <h3>Floor Cleaner Honey Dew</h3>
     <p>Bright honey dew scent that refreshes every room while leaving floors spotless and clean.</p>
-    <label>Price: RM 13.90</label>
+    <label>Select Combo:</label>
+    <select id="combo5" onchange="updateTotal()">
+      <option value="11.90">Single Pack - RM 11.90</option>
+      <option value="17.90">Twin Pack – RM 17.90</option>
+      <option value="49.90">10L Jerry Can - RM 49.90</option>
+    </select>
     <div class="quantity-control">
       <button onclick="changeQty(this, -1)">-</button>
       <input type="number" value="0" min="0" data-id="5" oninput="updateTotal()">
@@ -182,12 +182,17 @@
     </div>
   </div>
 
-  <!-- Product 4: New Product -->
+  <!-- Product 6 -->
   <div class="product">
     <img src="images/product6.jpg" alt="Lemon Fresh Dishwash">
     <h3>Lemon Fresh Dishwash</h3>
-    <p>Pleasant, fruity honeydew scent that revitalizes every room and leaves floors gleaming.</p>
-    <label>Price: RM 8.90</label>
+    <p>Pleasant, fruity honeydew scent that revitalizes every room and leaves floors gleaming.</p>
+    <label>Select Combo:</label>
+    <select id="combo6" onchange="updateTotal()">
+      <option value="7.90">Single Pack - RM 7.90</option>
+      <option value="11.90">Twin Pack – RM 11.90</option>
+      <option value="32.90">10L Jerry Can – RM 32.90</option>
+    </select>
     <div class="quantity-control">
       <button onclick="changeQty(this, -1)">-</button>
       <input type="number" value="0" min="0" data-id="6" oninput="updateTotal()">
@@ -219,9 +224,9 @@ function changeQty(button, change) {
 function updateTotal() {
   const combos = [
     { select: 'combo1', qty: document.querySelector('[data-id="1"]').value },
-    { fixedPrice: 19.90, qty: document.querySelector('[data-id="4"]').value },
-    { fixedPrice: 13.90, qty: document.querySelector('[data-id="5"]').value },
-    { fixedPrice: 8.90, qty: document.querySelector('[data-id="6"]').value }
+    { fixedPrice: 17.90, qty: document.querySelector('[data-id="4"]').value },
+    { select: 'combo5', qty: document.querySelector('[data-id="5"]').value },
+    { select: 'combo6', qty: document.querySelector('[data-id="6"]').value }
   ];
   let total = 0;
   combos.forEach(item => {
@@ -250,18 +255,33 @@ function sendOrder() {
 
   const products = [
     { name: 'Floor Cleaner Lavender', comboId: 'combo1', qty: document.querySelector('[data-id="1"]').value },
-    { name: 'Floor Cleaner Sandalwood', fixedPrice: 19.90, qty: document.querySelector('[data-id="4"]').value },
-    { name: 'Floor Cleaner Honey Dew', fixedPrice: 13.90, qty: document.querySelector('[data-id="5"]').value },
-    { name: 'Lemon Fresh Dishwash', fixedPrice: 8.90, qty: document.querySelector('[data-id="6"]').value }
+    { name: 'Floor Cleaner Honey Dew', comboId: 'combo5', qty: document.querySelector('[data-id="5"]').value },
+    { name: 'Lemon Fresh Dishwash', comboId: 'combo6', qty: document.querySelector('[data-id="6"]').value },
+    { name: 'Floor Cleaner Sandalwood', fixedPrice: 17.90, qty: document.querySelector('[data-id="4"]').value }
   ];
 
   let productList = '';
   products.forEach(p => {
-    if (parseInt(p.qty) > 0) {
-      const comboText = p.comboId
-        ? document.getElementById(p.comboId).selectedOptions[0].text
-        : `RM ${p.fixedPrice.toFixed(2)}`;
-      productList += `${p.name} - ${comboText} x ${p.qty}%0A`;
+    const qty = parseInt(p.qty);
+    if (qty > 0) {
+      let comboText = '';
+      let priceText = '';
+
+      if (p.comboId) {
+        const selected = document.getElementById(p.comboId).selectedOptions[0];
+        const parts = selected.text.split(/\s[-–]\s/);
+        comboText = parts[0];
+        priceText = parts[1];
+      } else {
+        comboText = '';
+        priceText = `RM ${p.fixedPrice.toFixed(2)}`;
+      }
+
+      if (comboText) {
+        productList += `- ${p.name} (${comboText}) - ${priceText} (x${qty})%0A`;
+      } else {
+        productList += `- ${p.name} - ${priceText} (x${qty})%0A`;
+      }
     }
   });
 
