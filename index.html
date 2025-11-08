@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Your Matahari Products</title>
 <link rel="icon" type="image/png" href="images/favicon.png" sizes="96x96">
-<link rel="shortcut icon" type="image/png" href="images/favicon.png" sizes="96x96">
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -109,6 +108,46 @@
   .order-btn:hover { background-color: #1EBE57; }
   .order-btn:disabled { background-color: #555; cursor: not-allowed; }
   .remark { display: block; margin-top: 8px; font-size: 0.95em; color: red; visibility: hidden; }
+
+  /* Popup Styles */
+  .popup {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+  .popup-content {
+    background: #111;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 450px;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(255,255,255,0.2);
+  }
+  .popup-content h3 { color: #25D366; text-align: center; margin-bottom: 15px; }
+  .popup-content ul { list-style: none; padding: 0; margin: 0 0 15px; }
+  .popup-content li { margin-bottom: 8px; color: #fff; white-space: pre-line; }
+  .popup-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  .popup-buttons button {
+    width: 48%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .proceed-btn { background-color: #25D366; color: #fff; border: none; }
+  .cancel-btn { background-color: #555; color: #fff; border: none; }
+  .cancel-btn:hover { background-color: #777; }
+
   @media (max-width: 768px) {
     .container { flex-direction: column; align-items: center; }
     .product { width: 90%; max-width: 350px; height: auto; }
@@ -118,6 +157,11 @@
 </style>
 </head>
 <body>
+
+<audio id="backgroundMusic">
+  <source src="audio/background.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
 <div class="header">
   <h2>Order Your Matahari Products</h2>
@@ -132,12 +176,11 @@
 </div>
 
 <div class="container">
-
-  <!-- Product 1 -->
+  <!-- Products -->
   <div class="product">
     <img src="images/product1.jpg" alt="Floor Cleaner Lavender">
     <h3>Floor Cleaner Lavender</h3>
-    <p>Gentle lavender fragrance with powerful cleaning for every floor surface.</p>
+    <p>Gentle lavender fragrance with powerful cleaning for every floor surface (1 Liter).</p>
     <label>Select Combo:</label>
     <select id="combo1" onchange="updateTotal()">
       <option value="11.90">Single Pack - RM 11.90</option>
@@ -145,30 +188,28 @@
       <option value="49.90">10L Jerry Can - RM 49.90</option>
     </select>
     <div class="quantity-control">
-      <button onclick="changeQty(this, -1)">-</button>
+      <button type="button" onclick="changeQty(this, -1)">-</button>
       <input type="number" value="0" min="0" data-id="1" oninput="updateTotal()">
-      <button onclick="changeQty(this, 1)">+</button>
+      <button type="button" onclick="changeQty(this, 1)">+</button>
     </div>
   </div>
 
-  <!-- Product 4 -->
   <div class="product">
     <img src="images/product4.jpg" alt="Floor Cleaner Sandalwood">
     <h3>Floor Cleaner Sandalwood</h3>
-    <p>Refreshing sandalwood scent with deep cleaning formula for a spotless finish.</p>
+    <p>Refreshing sandalwood scent with deep cleaning formula for a spotless finish (1 Liter).</p>
     <label>Price: RM 17.90</label>
     <div class="quantity-control">
-      <button onclick="changeQty(this, -1)">-</button>
+      <button type="button" onclick="changeQty(this, -1)">-</button>
       <input type="number" value="0" min="0" data-id="4" oninput="updateTotal()">
-      <button onclick="changeQty(this, 1)">+</button>
+      <button type="button" onclick="changeQty(this, 1)">+</button>
     </div>
   </div>
 
-  <!-- Product 5 -->
   <div class="product">
     <img src="images/product5.jpg" alt="Floor Cleaner Honey Dew">
     <h3>Floor Cleaner Honey Dew</h3>
-    <p>Pleasant, fruity scent that revitalizes every room and leaves floors gleaming.</p>
+    <p>Pleasant, fruity scent that revitalizes every room and leaves floors gleaming (1 Liter).</p>
     <label>Select Combo:</label>
     <select id="combo5" onchange="updateTotal()">
       <option value="11.90">Single Pack - RM 11.90</option>
@@ -176,17 +217,16 @@
       <option value="49.90">10L Jerry Can - RM 49.90</option>
     </select>
     <div class="quantity-control">
-      <button onclick="changeQty(this, -1)">-</button>
+      <button type="button" onclick="changeQty(this, -1)">-</button>
       <input type="number" value="0" min="0" data-id="5" oninput="updateTotal()">
-      <button onclick="changeQty(this, 1)">+</button>
+      <button type="button" onclick="changeQty(this, 1)">+</button>
     </div>
   </div>
 
-  <!-- Product 6 -->
   <div class="product">
     <img src="images/product6.jpg" alt="Lemon Fresh Dishwash">
     <h3>Lemon Fresh Dishwash</h3>
-    <p>A rich lemon formula that removes tough grease while leaving a natural citrus shine.</p>
+    <p>A rich lemon formula that removes tough grease while leaving a natural citrus shine (900 ml).</p>
     <label>Select Combo:</label>
     <select id="combo6" onchange="updateTotal()">
       <option value="7.90">Single Pack - RM 7.90</option>
@@ -194,12 +234,11 @@
       <option value="32.90">10L Jerry Can – RM 32.90</option>
     </select>
     <div class="quantity-control">
-      <button onclick="changeQty(this, -1)">-</button>
+      <button type="button" onclick="changeQty(this, -1)">-</button>
       <input type="number" value="0" min="0" data-id="6" oninput="updateTotal()">
-      <button onclick="changeQty(this, 1)">+</button>
+      <button type="button" onclick="changeQty(this, 1)">+</button>
     </div>
   </div>
-
 </div>
 
 <div class="total-section">
@@ -208,8 +247,20 @@
 </div>
 
 <div class="order-container">
-  <button class="order-btn" id="orderBtn" onclick="sendOrder()" disabled>Order Now via WhatsApp</button>
+  <button class="order-btn" id="orderBtn" onclick="showPopup()" disabled>Confirm Order</button>
   <span class="remark" id="remarkText">Enter your Name and Phone Number</span>
+</div>
+
+<!-- Popup -->
+<div class="popup" id="orderPopup">
+  <div class="popup-content">
+    <h3>Order Summary</h3>
+    <ul id="orderList"></ul>
+    <div class="popup-buttons">
+      <button class="cancel-btn" onclick="cancelOrder()">Cancel</button>
+      <button class="proceed-btn" onclick="sendOrder()">Proceed</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -248,11 +299,7 @@ function validateForm() {
   remark.style.visibility = valid ? 'hidden' : 'visible';
 }
 
-function sendOrder() {
-  const name = document.getElementById('name').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const total = document.getElementById('totalAmount').textContent;
-
+function getOrderDetails() {
   const products = [
     { name: 'Floor Cleaner Lavender', comboId: 'combo1', qty: document.querySelector('[data-id="1"]').value },
     { name: 'Floor Cleaner Honey Dew', comboId: 'combo5', qty: document.querySelector('[data-id="5"]').value },
@@ -260,35 +307,63 @@ function sendOrder() {
     { name: 'Floor Cleaner Sandalwood', fixedPrice: 17.90, qty: document.querySelector('[data-id="4"]').value }
   ];
 
-  let productList = '';
+  let orderLines = '';
   products.forEach(p => {
     const qty = parseInt(p.qty);
     if (qty > 0) {
       let comboText = '';
       let priceText = '';
-
       if (p.comboId) {
         const selected = document.getElementById(p.comboId).selectedOptions[0];
         const parts = selected.text.split(/\s[-–]\s/);
         comboText = parts[0];
         priceText = parts[1];
       } else {
-        comboText = '';
         priceText = `RM ${p.fixedPrice.toFixed(2)}`;
       }
-
-      if (comboText) {
-        productList += `- ${p.name} (${comboText}) - ${priceText} (x${qty})%0A`;
-      } else {
-        productList += `- ${p.name} - ${priceText} (x${qty})%0A`;
-      }
+      orderLines += `- ${p.name} ${comboText ? '(' + comboText + ')' : ''} - ${priceText} (x${qty})\n`;
     }
   });
 
-  const message = `Hello, I would like to order:%0A%0A${productList}%0ATotal: RM ${total}%0A(Exclude Delivery)%0A%0AName: ${name}%0APhone: ${phone}`;
-  const whatsappLink = `https://wa.me/60173328477?text=${message}`;
-  window.open(whatsappLink, '_blank');
+  const total = document.getElementById('totalAmount').textContent;
+  orderLines += `\nTotal: RM ${total}\n(Exclude Delivery)\n`; // spacing before total
+  return { orderLines, total };
 }
+
+function showPopup() {
+  const { orderLines } = getOrderDetails();
+  const orderList = document.getElementById('orderList');
+  orderList.innerHTML = '';
+  orderLines.split('\n').forEach(line => {
+    const li = document.createElement('li');
+    li.textContent = line || ' '; // preserve empty lines
+    orderList.appendChild(li);
+  });
+  document.getElementById('orderPopup').style.display = 'flex';
+}
+
+function cancelOrder() {
+  document.getElementById('orderPopup').style.display = 'none';
+  document.querySelectorAll('.quantity-control input').forEach(input => input.value = 0);
+  updateTotal();
+}
+
+function sendOrder() {
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const { orderLines } = getOrderDetails();
+
+  const message = `Hello, I would like to order:\n\n${orderLines}Name: ${name}\nPhone: ${phone}`;
+  const whatsappLink = `https://wa.me/60173328477?text=${encodeURIComponent(message)}`;
+  window.open(whatsappLink, '_blank');
+  document.getElementById('orderPopup').style.display = 'none';
+}
+
+// Play background music once on first click
+document.addEventListener('DOMContentLoaded', () => {
+  const audio = document.getElementById('backgroundMusic');
+  document.body.addEventListener('click', () => { audio.play(); }, { once: true });
+});
 </script>
 
 </body>
